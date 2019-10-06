@@ -1,4 +1,4 @@
-# Freeplane Gradle Addon Plugin
+# Freeplane Gradle Addon Development Plugin
 
 ## Directory structure:
 
