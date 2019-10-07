@@ -3,18 +3,24 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.GroovyPlugin
-import org.gradle.api.tasks.Copy
 import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.Sync
 import org.gradle.api.tasks.compile.GroovyCompile
 
 class FreeplaneAddonPluginExtension {
-    String directory = ''
+    String freeplaneDirectory = null
+    String addonDefinitionMindMapFileName = null
+    String addonSourceDirectory = 'src/addon'
+    List<String> includes = ['**/*']
+    List<String> excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
 }
 
 class FreeplaneAddonPlugin implements Plugin<Project> {
+    private FreeplaneAddonPluginExtension configuration
+
     void apply(Project project) {
         project.with {
-            FreeplaneAddonPluginExtension freeplane = extensions.create('freeplane', FreeplaneAddonPluginExtension)
+            configuration = extensions.create('freeplane', FreeplaneAddonPluginExtension)
             pluginManager.apply GroovyPlugin.class
             configurations {
                 ivy
@@ -43,22 +49,24 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
             }
 
             afterEvaluate {
-                assert ! freeplane.directory.isEmpty() : "freeplane directory should be set"
+                assert configuration.freeplaneDirectory != null : "freeplane directory should be set"
                 dependencies {
-                    compileOnly fileTree(dir: freeplane.directory, include: '**/*.jar')
+                    compileOnly fileTree(dir: configuration.freeplaneDirectory, include: '**/*.jar')
                 }
 
-                task ('prepareAddonSource', type: Copy) {
+                task ('prepareAddonSource', type: Sync) {
                     group = 'freeplane'
                     description = 'Prepares addon sources for packaging.'
-                    from 'src/addon'
+                    from configuration.addonSourceDirectory
                     into "$buildDir/addon"
+                    include configuration.includes
+                    exclude configuration.excludes
                     into ('lib') {
                         from jar.outputs
                     }
                     into ('lib') {
                         from (configurations.addon) {
-                            include("*.jar")
+                            include('*.jar')
                         }
                     }
 
@@ -73,13 +81,18 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                     dependsOn 'prepareAddonSource'
                     onlyIf {! Os.isFamily(Os.FAMILY_MAC)}
                     workingDir "$buildDir/addon"
-                    List<String> addonDefinitionFileNames = new FileNameByRegexFinder().getFileNames('src/addon', /.*\.mm/)
-                    assert addonDefinitionFileNames.size() == 1
-                    String name = new File(addonDefinitionFileNames[0]).name
+                    String addonDefinitionFileName = configuration.addonDefinitionMindMapFileName ?: defaultAddonDefinitionFileName
                     String starter = Os.isFamily(Os.FAMILY_WINDOWS) ? 'freeplaneConsole.exe' : 'freeplane.sh'
-                    commandLine "$freeplane.directory/$starter", '-S', '-Xaddons.devtools.releaseAddOn_on_single_node', "$buildDir/addon/$name"
+                    commandLine "$configuration.freeplaneDirectory/$starter", '-S', '-Xaddons.devtools.releaseAddOn_on_single_node', "$buildDir/addon/$addonDefinitionFileName"
                 }
             }
         }
+    }
+
+    private String getDefaultAddonDefinitionFileName() {
+        List<String> addonDefinitionFileNames = new FileNameByRegexFinder().getFileNames(configuration.addonSourceDirectory, /.*\.mm/)
+        assert addonDefinitionFileNames.size() == 1
+        String name = new File(addonDefinitionFileNames[0]).name
+        return name
     }
 }

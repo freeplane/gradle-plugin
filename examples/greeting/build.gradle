@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        maven { url "http://dl.bintray.com/freeplane/freeplane" }
+    }
+    dependencies {
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.2'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'org.freeplane.gradle-freeplane-plugin'
+
+freeplane {
+    // mandatory, freeplane installation directory.
+    // In this example it is taken from system environment.
+    freeplaneDirectory = System.env.FREEPLANE_DIR
+
+    // optional, addon source directory
+    addonSourceDirectory = 'src/addon'
+
+    // optional, to be set only if more then one mind map file in the addon source directory
+    addonDefinitionMindMapFileName = 'Greetings.mm'
+
+    // optional, includes
+    includes = ['**/*']
+
+    // optional, excludes
+    excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+
+}
+
+jar {
+    archiveFileName = 'greetings.jar'
+}
+
