@@ -11,8 +11,8 @@ class FreeplaneAddonPluginExtension {
     String freeplaneDirectory = null
     String addonDefinitionMindMapFileName = null
     String addonSourceDirectory = 'src/addon'
-    List<String> includes = ['**/*']
-    List<String> excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+    def includes = ['**/*']
+    def excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
 }
 
 class FreeplaneAddonPlugin implements Plugin<Project> {
