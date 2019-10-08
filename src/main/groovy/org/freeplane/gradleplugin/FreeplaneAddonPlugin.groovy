@@ -13,6 +13,7 @@ class FreeplaneAddonPluginExtension {
     String addonSourceDirectory = 'src/addon'
     def includes = ['**/*']
     def excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+    String maxHeapSize = '1024m'
 }
 
 class FreeplaneAddonPlugin implements Plugin<Project> {
@@ -87,7 +88,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                     workingDir "$buildDir/addon"
                     String addonDefinitionFileName = configuration.addonDefinitionMindMapFileName ?: defaultAddonDefinitionFileName
                     classpath = files("${configuration.freeplaneDirectory}/${osSpecificPath}freeplanelauncher.jar")
-                    maxHeapSize = '1024m'
+                    maxHeapSize = configuration.maxHeapSize
                     if(Os.isFamily(Os.FAMILY_WINDOWS)) {
                         jvmArgs "-Dorg.freeplane.userfpdir=${System.env.APPDATA}/Freeplane"
                     }

@@ -58,6 +58,9 @@ freeplane {
     // optional, excludes
     excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
 
+    // optional, max heap size for freeplane
+    maxHeapSize = '1024m'
+
 }
 
 jar {
