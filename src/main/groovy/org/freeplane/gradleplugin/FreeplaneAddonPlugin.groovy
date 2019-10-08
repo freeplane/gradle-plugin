@@ -91,7 +91,8 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                     if(Os.isFamily(Os.FAMILY_WINDOWS)) {
                         jvmArgs "-Dorg.freeplane.userfpdir=${System.env.APPDATA}/Freeplane"
                     }
-                    if(Os.isFamily(Os.MAC)) {
+                    if(Os.isFamily(Os.FAMILY_MAC)) {
+                        main = 'org.freeplane.launcher.Launcher'
                         jvmArgs '-Dapple.laf.useScreenMenuBar=true', '-Xdock:name=Freeplane'
                     }
                     args '-S', '-Xaddons.devtools.releaseAddOn_on_single_node', "$buildDir/addon/$addonDefinitionFileName"
