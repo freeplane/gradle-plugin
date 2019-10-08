@@ -3,7 +3,7 @@ import org.apache.tools.ant.taskdefs.condition.Os
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.GroovyPlugin
-import org.gradle.api.tasks.Exec
+import org.gradle.api.tasks.JavaExec
 import org.gradle.api.tasks.Sync
 import org.gradle.api.tasks.compile.GroovyCompile
 
@@ -50,8 +50,13 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
 
             afterEvaluate {
                 assert configuration.freeplaneDirectory != null : "freeplane directory should be set"
+                String osSpecificPath = Os.isFamily(Os.FAMILY_MAC) ? 'Contents/Java/' : ''
                 dependencies {
-                    compileOnly fileTree(dir: configuration.freeplaneDirectory, include: '**/*.jar')
+                    compile fileTree("$configuration.freeplaneDirectory/$osSpecificPath"){
+                        include '*.jar'
+                        include 'core/org.freeplane.core/lib/*.jar'
+                        include 'plugins/org.freeplane.plugin.script/lib/*.jar'
+                    }
                 }
 
                 task ('prepareAddonSource', type: Sync) {
@@ -75,15 +80,18 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                     }
                 }
 
-                task ('packageAddon', type: Exec) {
+                task ('packageAddon', type: JavaExec) {
                     group = 'freeplane'
                     description = 'Packages addon.'
                     dependsOn 'prepareAddonSource'
-                    onlyIf {! Os.isFamily(Os.FAMILY_MAC)}
                     workingDir "$buildDir/addon"
                     String addonDefinitionFileName = configuration.addonDefinitionMindMapFileName ?: defaultAddonDefinitionFileName
-                    String starter = Os.isFamily(Os.FAMILY_WINDOWS) ? 'freeplaneConsole.exe' : 'freeplane.sh'
-                    commandLine "$configuration.freeplaneDirectory/$starter", '-S', '-Xaddons.devtools.releaseAddOn_on_single_node', "$buildDir/addon/$addonDefinitionFileName"
+                    classpath = files("${configuration.freeplaneDirectory}/${osSpecificPath}freeplanelauncher.jar")
+                    maxHeapSize = '1024m'
+                    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+                        jvmArgs "-Dorg.freeplane.userfpdir=${System.env.APPDATA}/Freeplane"
+                    }
+                    args '-S', '-Xaddons.devtools.releaseAddOn_on_single_node', "$buildDir/addon/$addonDefinitionFileName"
                 }
             }
         }

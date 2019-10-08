@@ -17,22 +17,22 @@ targetCompatibility='1.8'
 sourceCompatibility='1.8'
 
 group 'org.freeplane'
-version='0.2'
+version='0.3'
 
 
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
-	publications = ['freeplaneGradlePlugin']
-	pkg {
+    publications = ['freeplaneGradlePlugin']
+    pkg {
         repo = 'freeplane'
         name = 'gradle-plugin'
         userOrg = 'freeplane'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/freeplane/gradle-plugin.git'
-		version {
+        version {
                 name = project.version
-		}
+        }
     }
 }
 
@@ -46,7 +46,7 @@ publishing {
         freeplaneGradlePlugin(MavenPublication) {
             from components.java
             artifactId 'gradle-freeplane-plugin'
-			artifact sourceJar {
+            artifact sourceJar {
                 classifier "sources"
             }
         }
