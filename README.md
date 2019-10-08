@@ -1,5 +1,5 @@
-# Freeplane Gradle Addon Development Plugin
-The plugin adds tasks `packageAddon` and `prepareAddonSource`. It requires Freeplane with installed Developer Tools Add-on (see https://www.freeplane.org/wiki/index.php/Add-ons_(install)#Developer_Tools).
+# Gradle Plugin for Freeplane Script and Add-on Development
+The plugin allows easy debugging of Freeplane groovy scripts in IDE and adds tasks `packageAddon` and `prepareAddonSource` to package your scripts as Freeplane add-on. The packaging requires Freeplane with installed Developer Tools Add-on (see https://www.freeplane.org/wiki/index.php/Add-ons_(install)#Developer_Tools).
 
 On MacOS gradle should run under JAVA 8 for executing `packageAddon`. Otherwise you can run `prepareAddonSource` and  open with build/addon/yourFile.mm in Freeplane and package it manually. On other OS all JAVA versions are supported.
 
@@ -30,7 +30,7 @@ buildscript {
         maven { url "http://dl.bintray.com/freeplane/freeplane" }
     }
     dependencies {
-        classpath 'org.freeplane:gradle-freeplane-plugin:0.2'
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.3'
     }
 }
 
@@ -47,19 +47,25 @@ freeplane {
     freeplaneDirectory = System.env.FREEPLANE_DIR
 
     // optional, addon source directory
-    addonSourceDirectory = 'src/addon'
+    // addonSourceDirectory = 'src/addon'
 
     // optional, to be set only if more then one mind map file in the addon source directory
-    addonDefinitionMindMapFileName = 'Greetings.mm'
+    // addonDefinitionMindMapFileName = 'Greetings.mm'
 
     // optional, includes
-    includes = ['**/*']
+    // includes = ['**/*']
 
     // optional, excludes
-    excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+    // excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
 
     // optional, max heap size for freeplane
-    maxHeapSize = '1024m'
+    // maxHeapSize = '1024m'
+
+    // optional, freeplane user setting directory
+    // userDirectory = 'user-directory'
+
+    // optional, additional Java Runtime options
+    // jvmArgs = []
 
 }
 
