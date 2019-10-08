@@ -1,4 +1,5 @@
 # Freeplane Gradle Addon Development Plugin
+The plugin adds tasks `packageAddon` and `prepareAddonSource`. It requires Freeplane with installed Developer Tools Add-on (see https://www.freeplane.org/wiki/index.php/Add-ons_(install)#Developer_Tools).
 
 ## Directory structure:
 
@@ -9,18 +10,24 @@ Put your source code to be packaged as jar file under
 * src/main/resources
 
 Put your scripts under
+
 * src/scripts/groovy
 
-## Example gradle.build
+Add your dependencies either to special configuration `addon` to be included in the created add-on installer.
+
+Put your add-on definition mind map and add-on resources not packaged in add-on jar into
+
+* /src/addon
+
+## Usage
 
 ```gradle
-
 buildscript {
     repositories {
         maven { url "http://dl.bintray.com/freeplane/freeplane" }
     }
     dependencies {
-        classpath 'org.freeplane:gradle-freeplane-plugin:0.1'
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.2'
     }
 }
 
@@ -28,17 +35,30 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'org.freeplane.addon-plugin'
+apply plugin: 'org.freeplane.gradle-freeplane-plugin'
 
 freeplane {
-    directory = '/freeplane/installation/directory'
+    // mandatory, freeplane installation directory.
+    // In this example it is taken from system environment.
+    freeplaneDirectory = System.env.FREEPLANE_DIR
+
+    // optional, addon source directory
+    addonSourceDirectory = 'src/addon'
+
+    // optional, to be set only if more then one mind map file in the addon source directory
+    addonDefinitionMindMapFileName = 'Greetings.mm'
+
+    // optional, includes
+    includes = ['**/*']
+
+    // optional, excludes
+    excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+
 }
 
-dependencies {
-// addon dependency jar files are packaged with the add-on
-    addon fileTree(dir: 'lib', include: '*.jar')
+jar {
+    archiveFileName = 'greetings.jar'
 }
-
 ```
 
 ## Debugging
