@@ -39,6 +39,7 @@ apply plugin: 'org.freeplane.gradle-freeplane-plugin'
 
 freeplane {
     // mandatory, freeplane installation directory.
+    // (Freeplane.app directory on MacOS)
     // In this example it is taken from system environment.
     freeplaneDirectory = System.env.FREEPLANE_DIR
 
