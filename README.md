@@ -1,7 +1,11 @@
 # Freeplane Gradle Addon Development Plugin
 The plugin adds tasks `packageAddon` and `prepareAddonSource`. It requires Freeplane with installed Developer Tools Add-on (see https://www.freeplane.org/wiki/index.php/Add-ons_(install)#Developer_Tools).
 
-## Directory structure:
+On MacOS gradle should run under JAVA 8 for executing `packageAddon`. Otherwise you can run `prepareAddonSource` and  open with build/addon/yourFile.mm in Freeplane and package it manually. On other OS all JAVA versions are supported.
+
+## Usage
+
+### Directory structure:
 
 Put your source code to be packaged as jar file under
 
@@ -19,7 +23,6 @@ Put your add-on definition mind map and add-on resources not packaged in add-on 
 
 * /src/addon
 
-## Usage
 
 ```gradle
 buildscript {
@@ -64,5 +67,9 @@ jar {
 
 ## Debugging
 
-For debugging import gradle project and freeplane gradle project into your IDE
-See https://www.freeplane.org/wiki/index.php/IDE_setup
+For debugging
+
+* import gradle project and freeplane gradle project into your IDE (See [related freeplane wiki page](https://www.freeplane.org/wiki/index.php/IDE_setup))
+* run Freeplane in IDE debugger
+* add classes compiled by IDE to script class path and addon source script directory to script directories in Freeplane prefs
+* Let IDE compile the addon project
