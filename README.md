@@ -79,6 +79,16 @@ jar {
 For debugging
 
 * import gradle project and freeplane gradle project into your IDE (See [related freeplane wiki page](https://www.freeplane.org/wiki/index.php/IDE_setup))
-* run Freeplane in IDE debugger
-* add classes compiled by IDE to script class path and addon source script directory to script directories in Freeplane prefs
 * Let IDE compile the addon project
+* run Freeplane in IDE debugger
+
+In Freeplane Tools -> Preferences -> Plugins
+
+* add all source script directories to `Script search path` in Freeplane preferences
+* add class root directories compiled by IDE to `Script classpath` in Freeplane preferences
+
+Restart freeplane and you should be able to debug your scripts and library source files.
+
+## Example add-on project
+
+There is an example add-on project `greetings` available in folder examples of this repository.
