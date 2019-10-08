@@ -14,6 +14,8 @@ class FreeplaneAddonPluginExtension {
     def includes = ['**/*']
     def excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
     String maxHeapSize = '1024m'
+    String userDirectory = Os.isFamily(Os.FAMILY_WINDOWS) ? "${System.env.APPDATA}/Freeplane" : null
+    def jvmArgs = null
 }
 
 class FreeplaneAddonPlugin implements Plugin<Project> {
@@ -89,12 +91,15 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                     String addonDefinitionFileName = configuration.addonDefinitionMindMapFileName ?: defaultAddonDefinitionFileName
                     classpath = files("${configuration.freeplaneDirectory}/${osSpecificPath}freeplanelauncher.jar")
                     maxHeapSize = configuration.maxHeapSize
-                    if(Os.isFamily(Os.FAMILY_WINDOWS)) {
-                        jvmArgs "-Dorg.freeplane.userfpdir=${System.env.APPDATA}/Freeplane"
+                    if(configuration.userDirectory != null) {
+                        jvmArgs "-Dorg.freeplane.userfpdir=${configuration.userDirectory}"
                     }
                     if(Os.isFamily(Os.FAMILY_MAC)) {
                         main = 'org.freeplane.launcher.Launcher'
                         jvmArgs '-Dapple.laf.useScreenMenuBar=true', '-Xdock:name=Freeplane'
+                    }
+                    if(configuration.jvmArgs != null) {
+                        jvmArgs configuration.jvmArgs
                     }
                     args '-S', '-Xaddons.devtools.releaseAddOn_on_single_node', "$buildDir/addon/$addonDefinitionFileName"
                 }
