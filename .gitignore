@@ -4,7 +4,4 @@ bin
 .project
 .settings
 build
-/gradle
-/gradlew
-/gradlew.bat
 .idea
