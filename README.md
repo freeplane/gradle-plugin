@@ -30,7 +30,7 @@ buildscript {
         maven { url "http://dl.bintray.com/freeplane/freeplane" }
     }
     dependencies {
-        classpath 'org.freeplane:gradle-freeplane-plugin:0.3'
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.4'
     }
 }
 
@@ -56,7 +56,7 @@ freeplane {
     // includes = ['**/*']
 
     // optional, excludes
-    // excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+    // excludes = ['**/*.bak', '**/~*', '**/$~*.mm~', '**/*.gdsl', '**/*.dsld']
 
     // optional, max heap size for freeplane
     // maxHeapSize = '1024m'
