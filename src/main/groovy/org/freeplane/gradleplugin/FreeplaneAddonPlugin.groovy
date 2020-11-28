@@ -12,7 +12,7 @@ class FreeplaneAddonPluginExtension {
     String addonDefinitionMindMapFileName = null
     String addonSourceDirectory = 'src/addon'
     def includes = ['**/*']
-    def excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+    def excludes = ['**/*.bak', '**/~*', '**/$~*.mm~', '**/*.gdsl', '**/*.dsld']
     String maxHeapSize = '1024m'
     String userDirectory = Os.isFamily(Os.FAMILY_WINDOWS) ? "${System.env.APPDATA}/Freeplane" : null
     def jvmArgs = null
