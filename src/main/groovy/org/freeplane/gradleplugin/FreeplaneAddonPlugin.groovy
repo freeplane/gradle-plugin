@@ -65,7 +65,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                 task ('prepareAddonSource', type: Sync) {
                     group = 'freeplane'
                     description = 'Prepares addon sources for packaging.'
-                    from configuration.addonSourceDirectory
+                    from project.file(configuration.addonSourceDirectory)
                     into "$buildDir/addon"
                     include configuration.includes
                     exclude configuration.excludes
@@ -88,7 +88,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                     description = 'Packages addon.'
                     dependsOn 'prepareAddonSource'
                     workingDir "$buildDir/addon"
-                    String addonDefinitionFileName = configuration.addonDefinitionMindMapFileName ?: defaultAddonDefinitionFileName
+                    String addonDefinitionFileName = configuration.addonDefinitionMindMapFileName ?: this.getDefaultAddonDefinitionFileName(project)
                     classpath = files("${configuration.freeplaneDirectory}/${osSpecificPath}freeplanelauncher.jar")
                     maxHeapSize = configuration.maxHeapSize
                     if(configuration.userDirectory != null) {
@@ -107,8 +107,8 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
         }
     }
 
-    private String getDefaultAddonDefinitionFileName() {
-        List<String> addonDefinitionFileNames = new FileNameByRegexFinder().getFileNames(configuration.addonSourceDirectory, /.*\.mm/)
+    private String getDefaultAddonDefinitionFileName(Project project) {
+        List<String> addonDefinitionFileNames = new FileNameByRegexFinder().getFileNames(project.file(configuration.addonSourceDirectory).path, /.*\.mm/)
         assert addonDefinitionFileNames.size() == 1
         String name = new File(addonDefinitionFileNames[0]).name
         return name
