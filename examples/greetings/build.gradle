@@ -28,7 +28,7 @@ freeplane {
     includes = ['**/*']
 
     // optional, excludes
-    excludes = ['**/*.bak', '**/~*', '**/$~*.mm~']
+    excludes = ['**/*.bak', '**/~*', '**/$~*.mm~', '**/*.gdsl', '**/*.dsld']
 
     // optional, max heap size for freeplane
     maxHeapSize = '1024m'
