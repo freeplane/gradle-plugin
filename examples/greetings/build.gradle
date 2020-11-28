@@ -3,7 +3,7 @@ buildscript {
         maven { url "http://dl.bintray.com/freeplane/freeplane" }
     }
     dependencies {
-        classpath 'org.freeplane:gradle-freeplane-plugin:0.3'
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.4'
     }
 }
 
@@ -22,7 +22,7 @@ freeplane {
     addonSourceDirectory = 'src/addon'
 
     // optional, to be set only if more then one mind map file in the addon source directory
-    addonDefinitionMindMapFileName = 'Greetings.mm'
+    // addonDefinitionMindMapFileName = 'Greetings.mm'
 
     // optional, includes
     includes = ['**/*']
