@@ -108,7 +108,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
     }
 
     private String getDefaultAddonDefinitionFileName(Project project) {
-        List<String> addonDefinitionFileNames = new FileNameByRegexFinder().getFileNames(project.file(configuration.addonSourceDirectory).path, /.*\.mm/)
+        List<String> addonDefinitionFileNames = new FileNameByRegexFinder().getFileNames(project.file(configuration.addonSourceDirectory).path, /\.mm$/)
         assert addonDefinitionFileNames.size() == 1
         String name = new File(addonDefinitionFileNames[0]).name
         return name

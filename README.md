@@ -30,7 +30,7 @@ buildscript {
         maven { url "http://dl.bintray.com/freeplane/freeplane" }
     }
     dependencies {
-        classpath 'org.freeplane:gradle-freeplane-plugin:0.4'
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.5'
     }
 }
 
