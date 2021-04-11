@@ -1,17 +1,10 @@
-plugins {
-    id "com.jfrog.bintray" version  "1.8.4"
-    id 'groovy'
-    id 'maven-publish'
-}
-
-dependencies {
-    implementation gradleApi()
-    implementation localGroovy()
-}
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 targetCompatibility='1.8'
 sourceCompatibility='1.8'
@@ -20,20 +13,9 @@ group 'org.freeplane'
 version='0.5'
 
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['freeplaneGradlePlugin']
-    pkg {
-        repo = 'freeplane'
-        name = 'gradle-plugin'
-        userOrg = 'freeplane'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/freeplane/gradle-plugin.git'
-        version {
-                name = project.version
-        }
-    }
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
 }
 
 task sourceJar(type: Jar, dependsOn: classes) {
@@ -41,17 +23,56 @@ task sourceJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allSource
 }
 
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
 publishing {
     publications {
-        freeplaneGradlePlugin(MavenPublication) {
-            from components.java
+        maven(MavenPublication) {
             artifactId 'gradle-freeplane-plugin'
-            artifact sourceJar {
-                classifier "sources"
+            artifact jar
+            artifact sourceJar
+			artifact javadocJar
+            pom {
+                name = project.name
+                description = 'Gradle Plugin for Freeplane Script and Add-on Development'
+                url = 'https://github.com/freeplane/gradle-plugin'
+
+                scm {
+                    url = 'https://github.com/freeplane/gradle-plugin'
+                    connection = 'scm:git:https://github.com/freeplane/gradle-plugin.git'
+                    developerConnection = 'scm:git:git@github.com:freeplane/gradle-plugin.git'
+                }
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'dpolivaev'
+                        name = 'Dimitry Polivaev'
+                        email = 'dpolivaev@gmx.de'
+                    }
+                }
             }
         }
     }
     repositories {
-        maven { url "${project.gradle.gradleUserHomeDir}/local-artifacts" }
+        maven {
+            url = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
+        }
+        maven { 
+			 url  = "${project.gradle.gradleUserHomeDir}/local-artifacts"
+		}
     }
 }
