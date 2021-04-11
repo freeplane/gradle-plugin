@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url "http://dl.bintray.com/freeplane/freeplane" }
+        mavenCentral()
     }
     dependencies {
         classpath 'org.freeplane:gradle-freeplane-plugin:0.5'

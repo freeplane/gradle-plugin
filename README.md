@@ -27,7 +27,7 @@ Put your add-on definition mind map and add-on resources not packaged in add-on 
 ```gradle
 buildscript {
     repositories {
-        maven { url "http://dl.bintray.com/freeplane/freeplane" }
+        mavenCentral()
     }
     dependencies {
         classpath 'org.freeplane:gradle-freeplane-plugin:0.5'
