@@ -46,7 +46,8 @@ freeplane {
     // In this example it is taken from system environment.
     freeplaneDirectory = System.env.FREEPLANE_DIR
 
-    // recommended, freeplane user setting directory. It should be specified without the version number suffix.
+    // recommended, freeplane user setting directory. 
+    // It should be specified without the version number suffix.
     // The value used by default can be different from your OS default.
     // userDirectory = 'user-directory'
 
