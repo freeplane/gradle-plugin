@@ -46,6 +46,11 @@ freeplane {
     // In this example it is taken from system environment.
     freeplaneDirectory = System.env.FREEPLANE_DIR
 
+    // recommended, freeplane user setting directory. 
+    // It should be specified without the version number suffix.
+    // The value used by default can be different from your OS default.
+    // userDirectory = 'user-directory'
+
     // optional, addon source directory
     // addonSourceDirectory = 'src/addon'
 
@@ -60,9 +65,6 @@ freeplane {
 
     // optional, max heap size for freeplane
     // maxHeapSize = '1024m'
-
-    // optional, freeplane user setting directory
-    // userDirectory = 'user-directory'
 
     // optional, additional Java Runtime options
     // jvmArgs = []
