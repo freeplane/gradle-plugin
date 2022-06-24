@@ -28,7 +28,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
             configurations {
                 ivy
                 addon
-                compile.extendsFrom(addon)
+                compileOnly.extendsFrom(addon)
             }
             dependencies {
                 ivy "org.apache.ivy:ivy:2.4.0"
@@ -55,7 +55,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                 assert configuration.freeplaneDirectory != null : "freeplane directory should be set"
                 String osSpecificPath = Os.isFamily(Os.FAMILY_MAC) ? 'Contents/Java/' : ''
                 dependencies {
-                    compile fileTree("$configuration.freeplaneDirectory/$osSpecificPath"){
+                    compileOnly fileTree("$configuration.freeplaneDirectory/$osSpecificPath"){
                         include '*.jar'
                         include 'core/org.freeplane.core/lib/*.jar'
                         include 'plugins/org.freeplane.plugin.script/lib/*.jar'
