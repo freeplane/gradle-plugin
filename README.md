@@ -40,6 +40,9 @@ repositories {
 
 apply plugin: 'org.freeplane.gradle-freeplane-plugin'
 
+targetCompatibility='1.8'
+sourceCompatibility='1.8'
+
 freeplane {
     // mandatory, freeplane installation directory.
     // (Freeplane.app directory on MacOS)
