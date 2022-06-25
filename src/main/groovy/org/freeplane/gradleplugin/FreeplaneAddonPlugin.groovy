@@ -53,7 +53,7 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
 
             afterEvaluate {
                 assert configuration.freeplaneDirectory != null : "freeplane directory should be set"
-                String osSpecificPath = Os.isFamily(Os.FAMILY_MAC) ? 'Contents/Java/' : ''
+                String osSpecificPath = Os.isFamily(Os.FAMILY_MAC) ? 'Contents/app/' : ''
                 dependencies {
                     compileOnly fileTree("$configuration.freeplaneDirectory/$osSpecificPath"){
                         include '*.jar'
