@@ -14,7 +14,7 @@ class FreeplaneAddonPluginExtension {
     def includes = ['**/*']
     def excludes = ['**/*.bak', '**/~*', '**/$~*.mm~', '**/*.gdsl', '**/*.dsld']
     String maxHeapSize = '1024m'
-    String userDirectory = Os.isFamily(Os.FAMILY_WINDOWS) ? "${System.env.APPDATA}/Freeplane" : null
+    String userDirectory = Os.isFamily(Os.FAMILY_WINDOWS) ? "${System.env.APPDATA}/Freeplane" : Os.isFamily(Os.FAMILY_UNIX) ? (System.env.XDG_CONFIG_HOME ?: "${System.env.HOME}/.config" + '/freeplane') : null
     def jvmArgs = null
 }
 
