@@ -53,13 +53,23 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
 
             afterEvaluate {
                 assert configuration.freeplaneDirectory != null : "freeplane directory should be set"
+
                 String osSpecificPath = Os.isFamily(Os.FAMILY_MAC) ? 'Contents/app/' : ''
+                if (Os.isFamily(Os.FAMILY_MAC) && !new File("$configuration.freeplaneDirectory/$osSpecificPath").exists()) {
+                    osSpecificPath = ''
+                }
+
                 dependencies {
                     compileOnly fileTree("$configuration.freeplaneDirectory/$osSpecificPath"){
                         include '*.jar'
                         include 'core/org.freeplane.core/lib/*.jar'
                         include 'plugins/org.freeplane.plugin.script/lib/*.jar'
                     }
+                }
+
+                sourceSets {
+                    test.compileClasspath += configurations.compileClasspath
+                    test.runtimeClasspath += configurations.compileClasspath
                 }
 
                 task ('prepareAddonSource', type: Sync) {
