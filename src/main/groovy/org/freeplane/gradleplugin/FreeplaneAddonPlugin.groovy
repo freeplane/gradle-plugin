@@ -29,9 +29,11 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                 ivy
                 addon
                 compileOnly.extendsFrom(addon)
+                scriptsImplementation.extendsFrom(implementation)
             }
             dependencies {
                 ivy "org.apache.ivy:ivy:2.4.0"
+                scriptsImplementation sourceSets.main.output
             }
             tasks.withType(GroovyCompile) {
                 groovyClasspath += configurations.ivy
@@ -46,7 +48,12 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
 
                 test {
                     groovy {
-                        srcDirs = ['src/test/groovy', 'src/scripts/groovy']
+                        srcDirs = ['src/test/groovy']
+                    }
+                }
+                scripts {
+                    groovy {
+                        srcDirs = ['src/scripts/groovy']
                     }
                 }
             }
@@ -68,8 +75,8 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                 }
 
                 sourceSets {
-                    test.compileClasspath += configurations.compileClasspath
-                    test.runtimeClasspath += configurations.compileClasspath
+                    scripts.compileClasspath += configurations.compileClasspath
+                    scripts.runtimeClasspath += configurations.compileClasspath
                 }
 
                 task ('prepareAddonSource', type: Sync) {
