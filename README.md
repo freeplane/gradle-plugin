@@ -30,7 +30,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'org.freeplane:gradle-freeplane-plugin:0.6'
+        classpath 'org.freeplane:gradle-freeplane-plugin:0.8'
     }
 }
 
