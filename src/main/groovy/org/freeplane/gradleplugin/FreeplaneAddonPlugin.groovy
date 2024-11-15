@@ -77,6 +77,8 @@ class FreeplaneAddonPlugin implements Plugin<Project> {
                 sourceSets {
                     scripts.compileClasspath += configurations.compileClasspath
                     scripts.runtimeClasspath += configurations.compileClasspath
+                    test.compileClasspath += configurations.compileClasspath
+                    test.runtimeClasspath += configurations.compileClasspath
                 }
 
                 task ('prepareAddonSource', type: Sync) {
